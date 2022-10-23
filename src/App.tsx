@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import { FormEvent, useRef, useState } from 'react';
 import './App.css';
 
 function App() {
+  const [items, setItems] = useState<string[]>(["aAa","aaa"])
+  const inputRef = useRef<HTMLInputElement>(null)
+  function onSubmit(e:FormEvent){
+    e.preventDefault()
+    if(inputRef===null || inputRef.current === null || inputRef.current.value=== "") return
+    const val = inputRef.current.value
+    setItems(data => {
+      return [...data, val]
+    })
+    inputRef.current.value = ""
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      Search: 
+      <input type="search"/>
+      <form onSubmit={onSubmit}>
+        New Item: <input ref={inputRef} type="text"/>
+        <button type="submit">Add</button>
+      </form>
+      <h3>Items:</h3>
+      {items.map(item => (
+        <div>{item}</div>
+      ))}
+
     </div>
   );
 }

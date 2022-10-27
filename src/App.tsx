@@ -1,4 +1,4 @@
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useMemo, useRef, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -6,9 +6,10 @@ function App() {
   const [query, setQuery] = useState<string>("")
   const inputRef = useRef<HTMLInputElement>(null)
   
-  const filteredItems:string[] = allItems.filter(item =>
+  const filteredItems:string[] = useMemo(() =>{
+    return allItems.filter(item =>
     item.toLowerCase().includes(query.toLowerCase())
-  )
+  )}, [query,allItems])
 
   function onSubmit(e:FormEvent){
     e.preventDefault()
